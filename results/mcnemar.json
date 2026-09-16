@@ -1,23 +1,23 @@
 {
   "Logistic (NDWI/MNDWI stats) vs Tiny CNN (water bands)": {
-    "n10_a_wrong_b_right": 0,
+    "n10_a_wrong_b_right": 1,
     "n01_a_right_b_wrong": 0,
     "p_value": 1.0
   },
   "Logistic (NDWI/MNDWI stats) vs Probe water bands": {
     "n10_a_wrong_b_right": 0,
-    "n01_a_right_b_wrong": 1,
+    "n01_a_right_b_wrong": 0,
     "p_value": 1.0
   },
   "Logistic (NDWI/MNDWI stats) vs Probe all bands": {
-    "n10_a_wrong_b_right": 0,
-    "n01_a_right_b_wrong": 1,
+    "n10_a_wrong_b_right": 1,
+    "n01_a_right_b_wrong": 0,
     "p_value": 1.0
   },
   "Logistic (NDWI/MNDWI stats) vs Majority class": {
     "n10_a_wrong_b_right": 0,
-    "n01_a_right_b_wrong": 4,
-    "p_value": 0.125
+    "n01_a_right_b_wrong": 3,
+    "p_value": 0.25
   },
   "Tiny CNN (water bands) vs Probe water bands": {
     "n10_a_wrong_b_right": 0,
@@ -26,7 +26,7 @@
   },
   "Tiny CNN (water bands) vs Probe all bands": {
     "n10_a_wrong_b_right": 0,
-    "n01_a_right_b_wrong": 1,
+    "n01_a_right_b_wrong": 0,
     "p_value": 1.0
   },
   "Tiny CNN (water bands) vs Majority class": {
@@ -36,7 +36,7 @@
   },
   "Probe water bands vs Probe all bands": {
     "n10_a_wrong_b_right": 1,
-    "n01_a_right_b_wrong": 1,
+    "n01_a_right_b_wrong": 0,
     "p_value": 1.0
   },
   "Probe water bands vs Majority class": {
@@ -45,8 +45,8 @@
     "p_value": 0.25
   },
   "Probe all bands vs Majority class": {
-    "n10_a_wrong_b_right": 1,
+    "n10_a_wrong_b_right": 0,
     "n01_a_right_b_wrong": 4,
-    "p_value": 0.375
+    "p_value": 0.125
   }
 }

@@ -2,7 +2,7 @@
 
 Use this as the skeleton. After `python scripts/run_all.py`, paste numbers from `results/official_metrics.md` and embed the PNGs listed below. Write in the order of the experiment, not as a leaderboard.
 
-**Narrative:** we were given 100 chips and told not to grow the set. A full ResNet-18 that scores 100% on 20 test images is overfitting. We start from physics, then a capacity-matched CNN, then a frozen pretrained probe, and we report uncertainty instead of a perfect score.
+**Narrative:** we were given 100 chips and told not to grow the labelled set. A perfect score on 20 test images (4 water) is **weak evidence of generalisation**, not proof of overfitting or of a solved task — our own spectral logistic can also hit 100% on that split. We start from physics as the **reference**, then a capacity-reduced CNN, then a frozen pretrained probe, and we report uncertainty instead of a winner.
 
 ---
 
@@ -35,9 +35,9 @@ EuroSAT100, 20 water / 80 non-water, official 60/20/20. We compare a spectral-in
 
 ### 1. Introduction
 - Why water scenes in Sentinel-2 (flood, mapping, NDWI literature).
-- Constraint: **exactly 100 labelled chips**, no extra data, accuracy is not the grade.
-- Label definition (must be explicit): *water scene* = dominant class River or SeaLake. This is **not** “contains water.” Highways with rivers, irrigated fields, coastal residential are label noise if the other definition is used.
-- The reference repo’s 100% on 4 water chips is the motivating failure mode.
+- Constraint: **exactly 100 labelled chips**, no extra labelled EuroSAT images, accuracy is not the grade. Unlabelled Sentinel-2 pretraining (MoCo) is allowed.
+- **Scene classification ≠ segmentation.** Each chip has one label: water scene iff the dominant EuroSAT class is River or SeaLake. The model does not output a water mask, flood extent, or shoreline. A highway/field chip that contains a river can be a **true negative**. A River chip still includes banks and vegetation. Mixed pixels at 10 m / 64×64 are expected, not labelling bugs.
+- A 20/20 test score is weak evidence; it needs CV, a physics reference, and leakage checks. Do not write “100% means overfitting.”
 
 ### 2. Related work (keep short)
 - EuroSAT land-cover classification (Helber).
@@ -58,9 +58,9 @@ Embed `fig_pipeline.png`. One study, three models of increasing complexity. Same
 
 ### 5. Physics
 - Majority class: accuracy floor ≈ 0.80. Anything below this is worse than “always say no water.”
-- NDWI and MNDWI features: mean, max, fraction of pixels > 0 and > 0.3.
-- Logistic regression and a depth-3 random forest; `C` / threshold chosen on **val**.
-- If MNDWI already matches the CNN, say so. That is a result.
+- NDWI and MNDWI: **raw** tile-mean scores; cut chosen on **val only**; PR/ROC from raw scores (no test-set scaling).
+- Logistic / RF on index stats (mean, max, wet-pixel fractions); `C` and threshold on **val**.
+- This logistic model is the **reference**. Neural nets have to beat it on CV, not on one 20-image split.
 
 ### 6. Tiny CNN
 - 16-32-64 conv, GAP, dropout 0.4, ~25k weights vs 60 images.
@@ -76,10 +76,11 @@ Embed `fig_pipeline.png`. One study, three models of increasing complexity. Same
 - Preprocessing: DN/10000, Resize 256, CenterCrop 224. No train-set z-score (B10 would explode).
 
 ### 8. Results
-- Lead with F1 and PR-AUC, not accuracy.
-- Always print Wilson CIs. With 4 positives, recall CI is huge — that is the point.
+- Lead with F1 and PR-AUC, not accuracy. Thresholds come from unique **val** scores (tie-break: higher cut).
+- Print Wilson CIs on accuracy and recall. With 4 positives, recall CI is huge — that is the point.
+- Ranking (AP) and thresholded F1 are different questions when val has 4 positives.
 - Random-4 vs water-4: if random-4 is close, you cannot claim a unique NIR/SWIR effect on n=20.
-- Do **not** write “our model achieves state of the art.”
+- Do **not** write “our model achieves state of the art” or “100% is overfitting.”
 
 ### 9. Stability and errors
 - 5-fold CV **reuses the 100 chips**. Label it supplementary.

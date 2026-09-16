@@ -1,7 +1,8 @@
 import numpy as np
+import pytest
 
 from eurosat_water.bands import canonical, find_band, keep_mask, resolve_keep
-from eurosat_water.evaluate import wilson_interval
+from eurosat_water.evaluate import best_threshold, wilson_interval
 
 
 def test_canonical_aliases():
@@ -39,3 +40,30 @@ def test_wilson_interval_bounds():
     assert hi >= lo
     # 4/4 is not a 100% CI down to 0
     assert lo > 0.4
+
+
+def test_resolve_keep_unknown_name_raises():
+    all_bands = ("B01", "B02", "B03", "B04")
+    with pytest.raises(KeyError, match="Unknown band set"):
+        resolve_keep("not-a-set", all_bands)
+
+
+def test_best_threshold_uses_validation_scores_not_fixed_grid():
+    # Grid 0.05–0.95 would miss the separating cut at 0.025.
+    scores = np.array([0.01, 0.02, 0.03, 0.04])
+    y = np.array([0, 0, 1, 1])
+    t, f1 = best_threshold(scores, y)
+    pred = (scores >= t).astype(int)
+    assert f1 == 1.0
+    assert np.array_equal(pred, y)
+    assert 0.02 < t <= 0.03
+
+
+def test_best_threshold_tie_breaks_to_higher_cut():
+    # No positives: every cut has F1=0; pick the highest (all-negative).
+    scores = np.array([0.1, 0.2, 0.3, 0.4])
+    y = np.array([0, 0, 0, 0])
+    t, f1 = best_threshold(scores, y)
+    assert f1 == 0.0
+    assert t > 0.4
+    assert np.all(scores < t)

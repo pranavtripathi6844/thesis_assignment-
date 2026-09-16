@@ -6,9 +6,9 @@ This repository is the thesis method only. It is not a fork of the fine-tuned Re
 
 ## What this project does
 
-Binary label: **water scene** = EuroSAT classes `River` ∪ `SeaLake` (20 chips) vs the other eight classes (80 chips). That is *dominant land cover of the 64×64 tile*, not pixel-level water.
+This is **binary scene classification**, not water **segmentation**. Each 64×64 chip has one label: **water scene** if EuroSAT’s dominant class is `River` or `SeaLake`, otherwise **non-water**. The model answers “is this tile a water-class scene?”, not “which pixels are water?”. A highway or field that contains a river can still be a true negative. Mixed pixels at 10 m GSD are expected.
 
-Official split only: **60 / 20 / 20** (12 / 4 / 4 water). No extra datasets, no synthetic images, no geometric augmentation.
+Official split only: **60 / 20 / 20** (12 / 4 / 4 water). No extra **labelled** EuroSAT images, no synthetic chips, no geometric augmentation. Sentinel-2 MoCo weights are allowed as an unlabelled pretrained extractor.
 
 Three complementary models, in this order:
 

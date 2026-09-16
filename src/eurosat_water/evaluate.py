@@ -58,13 +58,29 @@ def wilson_interval(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
     return (max(0.0, centre - margin), min(1.0, centre + margin))
 
 
-def best_threshold(probs: np.ndarray, y: np.ndarray, n_grid: int = 99) -> tuple[float, float]:
-    ts = np.linspace(0.05, 0.95, n_grid)
-    best_t, best_f1 = 0.5, -1.0
-    for t in ts:
-        f1 = f1_score(y, (probs >= t).astype(int), zero_division=0)
-        if f1 > best_f1:
-            best_f1, best_t = float(f1), float(t)
+def best_threshold(scores: np.ndarray, y: np.ndarray) -> tuple[float, float]:
+    """Choose a cut from *validation* scores only. Never look at test.
+
+    Candidates: unique scores, plus one value below the min (all-positive)
+    and one above the max (all-negative). Predict positive iff score >= t.
+
+    Tie-break: highest F1, then the *highest* threshold (fewer water calls).
+    """
+    scores = np.asarray(scores, dtype=np.float64).reshape(-1)
+    y = np.asarray(y, dtype=np.int64).reshape(-1)
+    if scores.size == 0:
+        return 0.5, 0.0
+    uniq = np.unique(scores)
+    span = float(uniq[-1] - uniq[0])
+    eps = 1e-12 if span == 0.0 else span * 1e-9
+    candidates = np.concatenate(([uniq[0] - eps], uniq, [uniq[-1] + eps]))
+    best_t = float(candidates[-1])
+    best_f1 = -1.0
+    for t in candidates:
+        f1 = float(f1_score(y, (scores >= t).astype(int), zero_division=0))
+        t = float(t)
+        if f1 > best_f1 + 1e-15 or (abs(f1 - best_f1) <= 1e-15 and t > best_t):
+            best_f1, best_t = f1, t
     return best_t, best_f1
 
 

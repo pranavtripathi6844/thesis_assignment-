@@ -316,7 +316,19 @@ def plot_errors(split: SplitData, result: Result, path: Path) -> Path:
 
 def write_metrics_markdown(results: list[Result], path: Path) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
-    cols = ["name", "family", "accuracy", "precision", "recall", "f1", "pr_auc", "roc_auc", "threshold"]
+    cols = [
+        "name",
+        "family",
+        "accuracy",
+        "acc_ci",
+        "recall",
+        "recall_ci",
+        "precision",
+        "f1",
+        "pr_auc",
+        "roc_auc",
+        "threshold",
+    ]
     lines = [
         "| " + " | ".join(cols) + " |",
         "| " + " | ".join(["---"] * len(cols)) + " |",
@@ -326,7 +338,9 @@ def write_metrics_markdown(results: list[Result], path: Path) -> Path:
         vals = []
         for c in cols:
             v = row[c]
-            if isinstance(v, float):
+            if c in {"acc_ci", "recall_ci"} and isinstance(v, (list, tuple)) and len(v) == 2:
+                vals.append(f"{v[0]:.3f}–{v[1]:.3f}")
+            elif isinstance(v, float):
                 vals.append(f"{v:.3f}")
             else:
                 vals.append(str(v))

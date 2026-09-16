@@ -20,30 +20,21 @@ def majority(y_train: np.ndarray, y_test: np.ndarray) -> Result:
     return score("Majority class", "baseline", probs, y_test, threshold=0.5, extra={"majority": maj})
 
 
-def _tune_threshold_on_scores(train_s, y_train, val_s, y_val) -> float:
-    # Pool train+val for a more stable cut, then lock it before test.
-    s = np.concatenate([train_s, val_s])
-    y = np.concatenate([y_train, y_val])
-    # Map unbounded index scores to a 0-1-ish range for the grid search helper.
-    lo, hi = np.quantile(s, [0.02, 0.98])
-    scaled = np.clip((s - lo) / (hi - lo + 1e-8), 0, 1)
-    t_scaled, _ = best_threshold(scaled, y)
-    return float(lo + t_scaled * (hi - lo))
-
-
 def index_threshold(train, val, test, which: str) -> Result:
-    tr = image_index_score(train, which)
+    """Tile-mean NDWI/MNDWI. Cut from val only; ranking metrics use raw scores."""
+    del train  # score is unsupervised; only the cut is supervised, and only on val
     va = image_index_score(val, which)
     te = image_index_score(test, which)
-    cut = _tune_threshold_on_scores(tr, train.y, va, val.y)
-    # Convert to a monotone probability-like score for PR/ROC.
-    all_s = np.concatenate([tr, va, te])
-    lo, hi = np.quantile(all_s, [0.02, 0.98])
-    probs = np.clip((te - lo) / (hi - lo + 1e-8), 0, 1)
-    # Threshold in the same scaled space.
-    t_scaled = float(np.clip((cut - lo) / (hi - lo + 1e-8), 0, 1))
+    cut, _ = best_threshold(va, val.y)
     name = which.upper() + " threshold"
-    return score(name, "physics", probs, test.y, threshold=t_scaled, extra={"raw_cut": cut})
+    return score(
+        name,
+        "physics",
+        te,
+        test.y,
+        threshold=cut,
+        extra={"raw_cut": cut, "threshold_source": "val", "score": "raw_tile_mean_index"},
+    )
 
 
 def _fit_linear(X_train, y_train, X_val, y_val) -> tuple[Pipeline, float]:

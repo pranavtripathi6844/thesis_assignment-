@@ -33,7 +33,9 @@ def find_band(bands: tuple[str, ...] | list[str], wanted: str) -> int:
 def resolve_keep(band_set: str | tuple[str, ...], all_bands: tuple[str, ...]) -> tuple[str, ...]:
     if isinstance(band_set, tuple):
         wanted = band_set
-    elif band_set == "All bands" or BAND_SETS.get(band_set) is None:
+    elif band_set not in BAND_SETS:
+        raise KeyError(f"Unknown band set {band_set!r}. Known: {tuple(BAND_SETS)}")
+    elif BAND_SETS[band_set] is None:
         return tuple(all_bands)
     else:
         wanted = BAND_SETS[band_set]
