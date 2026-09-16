@@ -25,3 +25,6 @@ Thumbs.db
 # Editor
 .idea/
 .vscode/
+
+# Local PDF previews
+report/_preview/
