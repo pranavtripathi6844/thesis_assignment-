@@ -2,7 +2,7 @@
 
 Thesis study on **EuroSAT100** (exactly 100 images). The goal is not a high accuracy number. The goal is a **pipeline that is honest on 100 labels and still the right pipeline when more images arrive**.
 
-The cloned demo that reports 100% on 20 test chips is kept under [`reference/original-eurosat-water`](reference/original-eurosat-water) and is **not** the method used here.
+This repository is the thesis method only. It is not a fork of the fine-tuned ResNet-18 demo that reports 100% on 20 test chips.
 
 ## What this project does
 
