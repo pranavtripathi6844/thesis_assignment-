@@ -1,0 +1,18 @@
+# Study configuration (mirrored in src/eurosat_water/config.py)
+dataset: EuroSAT100
+n_images: 100
+splits: {train: 60, val: 20, test: 20}
+positive_class: [River, SeaLake]
+augmentation: false
+extra_labelled_data: false
+models:
+  - majority
+  - ndwi_threshold
+  - mndwi_threshold
+  - logistic_indices
+  - logistic_indices_and_band_means
+  - random_forest_indices
+  - tiny_cnn
+  - frozen_resnet18_moco_linear_probe
+headline_metrics: [f1, pr_auc]
+supplementary: stratified_5_fold_on_same_100

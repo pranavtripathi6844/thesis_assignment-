@@ -1,0 +1,93 @@
+{
+  "B01": {
+    "canonical": "B1",
+    "water_mean": 0.122974693775177,
+    "nonwater_mean": 0.13619033992290497,
+    "water_std": 0.008174357004463673,
+    "nonwater_std": 0.02089385688304901
+  },
+  "B02": {
+    "canonical": "B2",
+    "water_mean": 0.0942988321185112,
+    "nonwater_mean": 0.1123248040676117,
+    "water_std": 0.01044380571693182,
+    "nonwater_std": 0.023699263110756874
+  },
+  "B03": {
+    "canonical": "B3",
+    "water_mean": 0.07814770191907883,
+    "nonwater_mean": 0.10554033517837524,
+    "water_std": 0.016857290640473366,
+    "nonwater_std": 0.02637775056064129
+  },
+  "B04": {
+    "canonical": "B4",
+    "water_mean": 0.056795716285705566,
+    "nonwater_mean": 0.09751706570386887,
+    "water_std": 0.020829690620303154,
+    "nonwater_std": 0.039623480290174484
+  },
+  "B05": {
+    "canonical": "B5",
+    "water_mean": 0.07022318989038467,
+    "nonwater_mean": 0.12741097807884216,
+    "water_std": 0.03253857046365738,
+    "nonwater_std": 0.035965368151664734
+  },
+  "B06": {
+    "canonical": "B6",
+    "water_mean": 0.10187409073114395,
+    "nonwater_mean": 0.22679243981838226,
+    "water_std": 0.07875067740678787,
+    "nonwater_std": 0.04484369605779648
+  },
+  "B07": {
+    "canonical": "B7",
+    "water_mean": 0.11801212280988693,
+    "nonwater_mean": 0.2704789638519287,
+    "water_std": 0.09860482066869736,
+    "nonwater_std": 0.05828200653195381
+  },
+  "B08": {
+    "canonical": "B8",
+    "water_mean": 0.11264804750680923,
+    "nonwater_mean": 0.26259902119636536,
+    "water_std": 0.09978882968425751,
+    "nonwater_std": 0.05728290602564812
+  },
+  "B09": {
+    "canonical": "B9",
+    "water_mean": 0.038926973938941956,
+    "nonwater_mean": 0.08160939067602158,
+    "water_std": 0.04221238195896149,
+    "nonwater_std": 0.03301125019788742
+  },
+  "B10": {
+    "canonical": "B10",
+    "water_mean": 0.0009420349379070103,
+    "nonwater_mean": 0.001251145382411778,
+    "water_std": 0.0003087007498834282,
+    "nonwater_std": 0.0003655026957858354
+  },
+  "B11": {
+    "canonical": "B11",
+    "water_mean": 0.0709514394402504,
+    "nonwater_mean": 0.21027988195419312,
+    "water_std": 0.0738520473241806,
+    "nonwater_std": 0.055777810513973236
+  },
+  "B12": {
+    "canonical": "B12",
+    "water_mean": 0.03932682052254677,
+    "nonwater_mean": 0.1292008012533188,
+    "water_std": 0.040778592228889465,
+    "nonwater_std": 0.05028122290968895
+  },
+  "B8A": {
+    "canonical": "B8A",
+    "water_mean": 0.12379590421915054,
+    "nonwater_mean": 0.2986104190349579,
+    "water_std": 0.11443212628364563,
+    "nonwater_std": 0.06458054482936859
+  }
+}

@@ -1,0 +1,27 @@
+# Data and environments
+data/
+.venv/
+# Snapshot of the original cloned demo (not this thesis)
+reference/
+venv/
+ENV/
+env/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+
+# Editor
+.idea/
+.vscode/
